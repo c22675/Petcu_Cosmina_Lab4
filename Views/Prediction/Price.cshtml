@@ -1,0 +1,72 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Petcu_Cosmina_Lab4.MLModel.ModelInput
+@{
+    ViewData["Title"] = "Price Prediction Using ML.NET";
+}
+<h2>Price Prediction using ML.NET</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Prediction" asp-action="Price" method="post">
+            
+            <div asp-validation-summary="ModelOnly" class="textdanger"></div>
+
+            @* DEBUG: afișează erorile din ModelState *@
+            @if (ViewBag.ModelErrors != null)
+            {
+                <div class="alert alert-warning">
+                    <ul>
+                        @foreach (var err in ViewBag.ModelErrors)
+                        {
+                            <li>@err</li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            <div class="form-group">
+                <label asp-for="Passenger_count" class="controllabel"></label>
+                <input asp-for="Passenger_count" type="number" class="formcontrol" />
+                <span asp-validation-for="Passenger_count" class="textdanger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trip_time_in_secs" class="controllabel"></label>
+                <input asp-for="Trip_time_in_secs" type="number" step="any" class="form-control" />
+                <span asp-validation-for="Trip_time_in_secs" class="textdanger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trip_distance" class="controllabel"></label>
+                <input asp-for="Trip_distance" type="number" step="any" class="form-control" />
+                <span asp-validation-for="Trip_distance" class="textdanger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payment_type" class="controllabel"></label>
+                <select asp-for="Payment_type" class="form-control">
+                    <option value="CSH">Cash</option>
+                    <option value="CRD">Credit</option>
+                </select>
+                <span asp-validation-for="Payment_type" class="textdanger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Check" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-offset-2 col-md-4">
+        @if (ViewBag.Price != null)
+        {
+            <h1>Result</h1>
+            <h2>Fare Price:@ViewBag.Price</h2>
+        }
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
